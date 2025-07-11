@@ -118,7 +118,7 @@ export default function Portfolio() {
       achievements: [
         "Built end-to-end ML pipeline achieving 92%+ accuracy in EEG emotional state classification using Random Forest and SVM models on 9,000+ samples",
         "Engineered preprocessing workflows for high-dimensional brainwave data (alpha, beta, gamma) with feature importance analysis",
-        "Applied t-SNE dimensionality reduction and data visualization for mental health monitoring applications", 
+        "Applied t-SNE dimensionality reduction and data visualization for mental health monitoring applications",
       ],
     },
     {
@@ -421,7 +421,7 @@ export default function Portfolio() {
               </div>
               <h3 className="text-2xl font-bold text-white">Data Science & ML Research Intern</h3>
               <p className="text-white/80 font-medium">Louisiana State University of Alexandria</p>
-              <p className="text-white/60 text-sm">May 2025 – Present • CURRENT POSITION</p>
+              <p className="text-white/60 text-sm">May 2025 – July 2025</p>
             </div>
             <div className="grid md:grid-cols-3 gap-4">
               <div className="bg-white/10 rounded-lg p-4">
