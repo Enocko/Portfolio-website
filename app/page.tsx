@@ -877,29 +877,39 @@ export default function Portfolio() {
 
             <Card className="p-6">
               <h3 className="text-xl font-semibold mb-4">Send me a message</h3>
-              <form className="space-y-4">
+              <form
+                className="space-y-4"
+                action="https://formsubmit.co/el/reyedu"
+                method="POST"
+              >
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">First Name</label>
-                    <Input placeholder="John" />
+                    <Input name="firstName" placeholder="John" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">Last Name</label>
-                    <Input placeholder="Doe" />
+                    <Input name="lastName" placeholder="Doe" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Email</label>
-                  <Input type="email" placeholder="john@example.com" />
+                  <Input name="email" type="email" placeholder="john@example.com" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Subject</label>
-                  <Input placeholder="Let's discuss opportunities" />
+                  <Input name="subject" placeholder="Let's discuss opportunities" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Message</label>
-                  <Textarea placeholder="Hi Enock, I'd love to connect about..." rows={4} />
+                  <Textarea name="message" placeholder="Hi Enock, I'd love to connect about..." rows={4} />
                 </div>
+
+                {/* Hidden fields */}
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_template" value="table" />
+                <input type="hidden" name="_next" value="https://enock-portfolio.vessel.app/thank-you" />
+
                 <Button type="submit" className="w-full">
                   Send Message
                 </Button>
