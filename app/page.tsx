@@ -114,11 +114,11 @@ export default function Portfolio() {
       title: "Data Science & Machine Learning Research Intern",
       company: "Louisiana State University of Alexandria",
       location: "Alexandria, Louisiana",
-      period: "May 2025 – Present",
+      period: "May 2025 – July 2025",
       achievements: [
         "Built end-to-end ML pipeline achieving 92%+ accuracy in EEG emotional state classification using Random Forest and SVM models on 9,000+ samples",
         "Engineered preprocessing workflows for high-dimensional brainwave data (alpha, beta, gamma) with feature importance analysis",
-        "Applied t-SNE dimensionality reduction and data visualization for mental health monitoring applications",
+        "Applied t-SNE dimensionality reduction and data visualization for mental health monitoring applications", 
       ],
     },
     {
