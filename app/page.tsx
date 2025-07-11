@@ -908,7 +908,7 @@ export default function Portfolio() {
                 {/* Hidden fields */}
                 <input type="hidden" name="_captcha" value="false" />
                 <input type="hidden" name="_template" value="table" />
-                <input type="hidden" name="_next" value="https://enock-portfolio.vessel.app/thank-you" />
+                <input type="hidden" name="_next" value="https://enock-owusu-ansah-portfolio.vercel.app/thank-you" />
 
                 <Button type="submit" className="w-full">
                   Send Message
