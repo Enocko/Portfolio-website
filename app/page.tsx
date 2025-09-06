@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -35,49 +37,19 @@ export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home")
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(0)
+  const [direction, setDirection] = useState<"forward" | "backward">("forward")
+  const [isUserInteracting, setIsUserInteracting] = useState(false)
 
-  useEffect(() => {
-    setMounted(true)
-    const handleScroll = () => {
-      const sections = ["home", "about", "projects", "experience", "skills", "contact"]
-      const scrollPosition = window.scrollY + 100
-
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const offsetTop = element.offsetTop
-          const offsetHeight = element.offsetHeight
-
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section)
-            break
-          }
-        }
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
-    setIsMenuOpen(false)
-  }
-
-  const scrollProjects = (direction: "left" | "right") => {
-    const container = document.getElementById("projects-container")
-    if (container) {
-      const scrollAmount = 400
-      container.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      })
-    }
-  }
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    subject: "",
+    message: "",
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
 
   const projects = [
     {
@@ -95,10 +67,10 @@ export default function Portfolio() {
       ],
       date: "August 2025",
       icon: <Brain className="w-6 h-6" />,
-      link: "https://github.com/Enocko/Enoxify-Language-AI-", // Updated link
+      link: "https://github.com/Enocko/Enoxify-Language-AI-",
     },
     {
-      title: "NeuroFlow - Stroke Patient Management",
+      title: "NeuroFlow",
       description:
         "Full-stack hospital application streamlining stroke patient care with fast data entry and medical decision-making capabilities.",
       tech: ["Django", "HTML/CSS/JS", "SQLite", "Git"],
@@ -110,10 +82,10 @@ export default function Portfolio() {
       ],
       date: "April 2025",
       icon: <Database className="w-6 h-6" />,
-      link: "https://github.com/Enocko/neuroflow-healthcare-platform", // Updated link
+      link: "https://github.com/Enocko/neuroflow-healthcare-platform",
     },
     {
-      title: "PyGit – Git Internals Reimplementation",
+      title: "PyGit",
       description:
         "Recreated Git's core internals in Python, including object serialization, commit trees, and HEAD tracking logic.",
       tech: ["Python", "SHA-1", "File I/O", "argparse", "Data Structures"],
@@ -125,7 +97,7 @@ export default function Portfolio() {
       ],
       date: "February 2025",
       icon: <Code className="w-6 h-6" />,
-      link: "https://github.com/Enocko/py_git", // Updated link
+      link: "https://github.com/Enocko/py_git",
     },
     {
       title: "Georim App (Team Project)",
@@ -140,7 +112,7 @@ export default function Portfolio() {
       ],
       date: "January 2025",
       icon: <Smartphone className="w-6 h-6" />,
-      link: "#", // Link kept as "#" if repository is private/not available
+      link: "#",
     },
   ]
 
@@ -184,6 +156,172 @@ export default function Portfolio() {
     Languages: ["Python", "Java", "C", "HTML/CSS", "JavaScript", "SQL"],
     Technologies: ["MongoDB", "React.js", "Node.js", "Express.js", "Firebase", "Linux", "Nest.js", "WordPress"],
     Tools: ["VS Code", "Git", "PyCharm", "Figma", "Canva", "Eclipse", "Google Cloud Platform", "Android Studio"],
+  }
+
+  useEffect(() => {
+    setMounted(true)
+    const handleScroll = () => {
+      const sections = ["home", "about", "projects", "experience", "skills", "contact"]
+      const scrollPosition = window.scrollY + 100
+
+      for (const section of sections) {
+        const element = document.getElementById(section)
+        if (element) {
+          const offsetTop = element.offsetTop
+          const offsetHeight = element.offsetHeight
+
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section)
+            break
+          }
+        }
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  // Smooth cycling carousel effect
+  useEffect(() => {
+    if (isUserInteracting) return
+
+    const interval = setInterval(() => {
+      setCurrentProjectIndex((prevIndex) => {
+        let nextIndex: number
+
+        if (direction === "forward") {
+          if (prevIndex === projects.length - 1) {
+            // Reached the end, change direction
+            setDirection("backward")
+            nextIndex = prevIndex - 1
+          } else {
+            nextIndex = prevIndex + 1
+          }
+        } else {
+          // backward direction
+          if (prevIndex === 0) {
+            // Reached the beginning, change direction
+            setDirection("forward")
+            nextIndex = prevIndex + 1
+          } else {
+            nextIndex = prevIndex - 1
+          }
+        }
+
+        // Smooth scroll to the new position
+        const container = document.getElementById("projects-container")
+        if (container) {
+          container.scrollTo({
+            left: nextIndex * 400,
+            behavior: "smooth",
+          })
+        }
+
+        return nextIndex
+      })
+    }, 3500) // Slower, more cinematic timing
+
+    return () => clearInterval(interval)
+  }, [direction, isUserInteracting, projects.length])
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
+    }
+    setIsMenuOpen(false)
+  }
+
+  const scrollProjects = (scrollDirection: "left" | "right") => {
+    setIsUserInteracting(true)
+
+    const container = document.getElementById("projects-container")
+    if (container) {
+      const scrollAmount = 400
+      let newIndex: number
+
+      if (scrollDirection === "left") {
+        newIndex = Math.max(0, currentProjectIndex - 1)
+      } else {
+        newIndex = Math.min(projects.length - 1, currentProjectIndex + 1)
+      }
+
+      setCurrentProjectIndex(newIndex)
+      container.scrollTo({
+        left: newIndex * 400,
+        behavior: "smooth",
+      })
+    }
+
+    // Resume auto-cycling after user interaction
+    setTimeout(() => {
+      setIsUserInteracting(false)
+    }, 10000) // 10 seconds of pause after user interaction
+  }
+
+  const goToProject = (index: number) => {
+    setIsUserInteracting(true)
+    setCurrentProjectIndex(index)
+
+    const container = document.getElementById("projects-container")
+    if (container) {
+      container.scrollTo({
+        left: index * 400,
+        behavior: "smooth",
+      })
+    }
+
+    // Resume auto-cycling after user interaction
+    setTimeout(() => {
+      setIsUserInteracting(false)
+    }, 10000)
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus("idle")
+
+    try {
+      const response = await fetch("https://formspree.io/f/xovnyawj", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
+      })
+
+      if (response.ok) {
+        setSubmitStatus("success")
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          subject: "",
+          message: "",
+        })
+      } else {
+        setSubmitStatus("error")
+      }
+    } catch (error) {
+      setSubmitStatus("error")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (!mounted) {
@@ -394,7 +532,7 @@ export default function Portfolio() {
             <Button
               variant="outline"
               size="icon"
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm hover:bg-background/90 shadow-lg"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm hover:bg-background/90 shadow-lg transition-all duration-300 hover:scale-110"
               onClick={() => scrollProjects("left")}
             >
               <ChevronLeft className="w-4 h-4" />
@@ -402,7 +540,7 @@ export default function Portfolio() {
             <Button
               variant="outline"
               size="icon"
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm hover:bg-background/90 shadow-lg"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm hover:bg-background/90 shadow-lg transition-all duration-300 hover:scale-110"
               onClick={() => scrollProjects("right")}
             >
               <ChevronRight className="w-4 h-4" />
@@ -411,14 +549,19 @@ export default function Portfolio() {
             {/* Scrollable Projects Container */}
             <div
               id="projects-container"
-              className="flex gap-8 overflow-x-auto scrollbar-hide pb-4 px-12"
+              className="flex gap-8 overflow-x-auto scrollbar-hide pb-4 px-12 transition-all duration-700 ease-in-out"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               {projects.map((project, index) => (
-                <Card key={index} className="group hover-lift glow-on-hover colorful-card flex-shrink-0 w-96">
+                <Card
+                  key={index}
+                  className={`group hover-lift glow-on-hover colorful-card flex-shrink-0 w-96 transition-all duration-500 ${
+                    index === currentProjectIndex ? "scale-105 shadow-2xl ring-2 ring-primary/30" : "scale-100"
+                  }`}
+                >
                   <CardHeader>
                     <div className="flex items-center justify-between mb-2">
-                      <div className="p-3 bg-primary/20 rounded-xl group-hover:bg-primary/30 transition-colors group-hover:scale-110 transform duration-300">
+                      <div className="p-3 bg-primary/20 rounded-xl group-hover:bg-primary/30 transition-all duration-500 group-hover:scale-110 transform">
                         {project.icon}
                       </div>
                       <div className="flex items-center gap-2">
@@ -429,7 +572,7 @@ export default function Portfolio() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="p-1 h-auto opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="p-1 h-auto opacity-0 group-hover:opacity-100 transition-all duration-300"
                             onClick={() => window.open(project.link, "_blank")}
                           >
                             <ExternalLink className="w-4 h-4" />
@@ -437,7 +580,7 @@ export default function Portfolio() {
                         )}
                       </div>
                     </div>
-                    <CardTitle className="text-xl group-hover:text-primary transition-colors line-clamp-2">
+                    <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300 line-clamp-2">
                       {project.title}
                     </CardTitle>
                     <CardDescription className="text-sm leading-relaxed line-clamp-3">
@@ -463,7 +606,7 @@ export default function Portfolio() {
                           <Badge
                             key={idx}
                             variant="secondary"
-                            className="text-xs hover:bg-primary hover:text-primary-foreground transition-colors"
+                            className="text-xs hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
                           >
                             {tech}
                           </Badge>
@@ -475,26 +618,25 @@ export default function Portfolio() {
               ))}
             </div>
 
-            {/* Scroll Indicator */}
-            <div className="flex justify-center mt-6">
-              <div className="flex space-x-2">
+            {/* Enhanced Scroll Indicators */}
+            <div className="flex justify-center mt-8">
+              <div className="flex space-x-3">
                 {projects.map((_, index) => (
                   <div
                     key={index}
-                    className="w-2 h-2 rounded-full bg-primary/30 hover:bg-primary/60 transition-colors cursor-pointer"
-                    onClick={() => {
-                      const container = document.getElementById("projects-container")
-                      if (container) {
-                        container.scrollTo({
-                          left: index * 400,
-                          behavior: "smooth",
-                        })
-                      }
-                    }}
+                    className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${
+                      index === currentProjectIndex
+                        ? "w-8 bg-primary shadow-lg"
+                        : "w-2 bg-primary/30 hover:bg-primary/60 hover:w-4"
+                    }`}
+                    onClick={() => goToProject(index)}
                   />
                 ))}
               </div>
             </div>
+
+            {/* Clean spacing */}
+            <div className="mt-4"></div>
           </div>
         </div>
       </section>
@@ -973,31 +1115,92 @@ export default function Portfolio() {
 
             <Card className="p-6">
               <h3 className="text-xl font-semibold mb-4">Send me a message</h3>
-              <form className="space-y-4">
+
+              {submitStatus === "success" && (
+                <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-green-800 text-sm">
+                    ✅ Thank you! Your message has been sent successfully. I'll get back to you soon!
+                  </p>
+                </div>
+              )}
+
+              {submitStatus === "error" && (
+                <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-800 text-sm">
+                    ❌ Sorry, there was an error sending your message. Please try again or contact me directly.
+                  </p>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">First Name</label>
-                    <Input placeholder="John" />
+                    <label className="block text-sm font-medium mb-2">First Name *</label>
+                    <Input
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      placeholder="John"
+                      required
+                      disabled={isSubmitting}
+                    />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Last Name</label>
-                    <Input placeholder="Doe" />
+                    <label className="block text-sm font-medium mb-2">Last Name *</label>
+                    <Input
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      placeholder="Doe"
+                      required
+                      disabled={isSubmitting}
+                    />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Email</label>
-                  <Input type="email" placeholder="john@example.com" />
+                  <label className="block text-sm font-medium mb-2">Email *</label>
+                  <Input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="john@example.com"
+                    required
+                    disabled={isSubmitting}
+                  />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Subject</label>
-                  <Input placeholder="Let's discuss opportunities" />
+                  <label className="block text-sm font-medium mb-2">Subject *</label>
+                  <Input
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    placeholder="Let's discuss opportunities"
+                    required
+                    disabled={isSubmitting}
+                  />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Message</label>
-                  <Textarea placeholder="Hi Enock, I'd love to connect about..." rows={4} />
+                  <label className="block text-sm font-medium mb-2">Message *</label>
+                  <Textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    placeholder="Hi Enock, I'd love to connect about..."
+                    rows={4}
+                    required
+                    disabled={isSubmitting}
+                  />
                 </div>
-                <Button type="submit" className="w-full">
-                  Send Message
+                <Button type="submit" className="w-full" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
+                      Sending...
+                    </>
+                  ) : (
+                    "Send Message"
+                  )}
                 </Button>
               </form>
             </Card>
