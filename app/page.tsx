@@ -23,6 +23,10 @@ import {
   Sun,
   Moon,
   Users,
+  Brain,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react"
 import { useTheme } from "next-themes"
 
@@ -64,9 +68,37 @@ export default function Portfolio() {
     setIsMenuOpen(false)
   }
 
+  const scrollProjects = (direction: "left" | "right") => {
+    const container = document.getElementById("projects-container")
+    if (container) {
+      const scrollAmount = 400
+      container.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      })
+    }
+  }
+
   const projects = [
     {
-      title: "Stroke Patient Management App",
+      title: "Enoxify - AI-Powered Accessibility Platform",
+      description:
+        "Comprehensive full-stack web application that makes complex information accessible through AI-powered text simplification, multi-language text-to-speech, speech-to-text transcription, and intelligent document processing.",
+      tech: ["Python", "React", "TypeScript", "OpenAI API", "FastAPI", "gTTS", "Three.js"],
+      features: [
+        "AI-powered text simplification using OpenAI GPT-4",
+        "Multi-language text-to-speech with native pronunciation",
+        "Real-time speech-to-text transcription with Whisper API",
+        "3D interactive background with glass-morphism effects",
+        "Document processing for PDF/Word files with audio output",
+        "Dynamic playback speed control and tab-based navigation",
+      ],
+      date: "August 2025",
+      icon: <Brain className="w-6 h-6" />,
+      link: "https://github.com/Enocko/Enoxify-Language-AI-", // Updated link
+    },
+    {
+      title: "NeuroFlow - Stroke Patient Management",
       description:
         "Full-stack hospital application streamlining stroke patient care with fast data entry and medical decision-making capabilities.",
       tech: ["Django", "HTML/CSS/JS", "SQLite", "Git"],
@@ -78,6 +110,7 @@ export default function Portfolio() {
       ],
       date: "April 2025",
       icon: <Database className="w-6 h-6" />,
+      link: "https://github.com/Enocko/neuroflow-healthcare-platform", // Updated link
     },
     {
       title: "PyGit – Git Internals Reimplementation",
@@ -92,6 +125,7 @@ export default function Portfolio() {
       ],
       date: "February 2025",
       icon: <Code className="w-6 h-6" />,
+      link: "https://github.com/Enocko/py_git", // Updated link
     },
     {
       title: "Georim App (Team Project)",
@@ -106,6 +140,7 @@ export default function Portfolio() {
       ],
       date: "January 2025",
       icon: <Smartphone className="w-6 h-6" />,
+      link: "#", // Link kept as "#" if repository is private/not available
     },
   ]
 
@@ -114,7 +149,7 @@ export default function Portfolio() {
       title: "Data Science & Machine Learning Research Intern",
       company: "Louisiana State University of Alexandria",
       location: "Alexandria, Louisiana",
-      period: "May 2025 – Present",
+      period: "May 2025 – July 2025",
       achievements: [
         "Built end-to-end ML pipeline achieving 92%+ accuracy in EEG emotional state classification using Random Forest and SVM models on 9,000+ samples",
         "Engineered preprocessing workflows for high-dimensional brainwave data (alpha, beta, gamma) with feature importance analysis",
@@ -220,11 +255,9 @@ export default function Portfolio() {
               </div>
               <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">Enock Owusu Ansah</h1>
               <p className="text-xl md:text-2xl text-white/90 mb-2 drop-shadow">
-                Computer Science Student & Software Engineer
+                Full Stack Developer and ML Enthusiast
               </p>
-              <p className="text-lg text-white/80 mb-8 drop-shadow">
-                Grambling State University • Class of 2028 • 4.0 GPA
-              </p>
+              <p className="text-lg text-white/80 mb-8 drop-shadow">Grambling State University</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -355,50 +388,113 @@ export default function Portfolio() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <Card key={index} className="group hover-lift glow-on-hover card-gradient">
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="p-3 bg-primary/20 rounded-xl group-hover:bg-primary/30 transition-colors group-hover:scale-110 transform duration-300">
-                      {project.icon}
-                    </div>
-                    <span className="text-sm text-muted-foreground bg-background/50 px-2 py-1 rounded-full">
-                      {project.date}
-                    </span>
-                  </div>
-                  <CardTitle className="text-xl group-hover:text-primary transition-colors">{project.title}</CardTitle>
-                  <CardDescription className="text-sm leading-relaxed">{project.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="font-medium mb-2">Key Features:</h4>
-                      <ul className="text-sm text-muted-foreground space-y-1">
-                        {project.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start">
-                            <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 mr-2 flex-shrink-0"></span>
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+          {/* Horizontal Scroll Container */}
+          <div className="relative">
+            {/* Navigation Buttons */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm hover:bg-background/90 shadow-lg"
+              onClick={() => scrollProjects("left")}
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm hover:bg-background/90 shadow-lg"
+              onClick={() => scrollProjects("right")}
+            >
+              <ChevronRight className="w-4 h-4" />
+            </Button>
 
-                    <div className="flex flex-wrap gap-2">
-                      {project.tech.map((tech, idx) => (
-                        <Badge
-                          key={idx}
-                          variant="secondary"
-                          className="text-xs hover:bg-primary hover:text-primary-foreground transition-colors"
-                        >
-                          {tech}
-                        </Badge>
-                      ))}
+            {/* Scrollable Projects Container */}
+            <div
+              id="projects-container"
+              className="flex gap-8 overflow-x-auto scrollbar-hide pb-4 px-12"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {projects.map((project, index) => (
+                <Card key={index} className="group hover-lift glow-on-hover colorful-card flex-shrink-0 w-96">
+                  <CardHeader>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="p-3 bg-primary/20 rounded-xl group-hover:bg-primary/30 transition-colors group-hover:scale-110 transform duration-300">
+                        {project.icon}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-muted-foreground bg-background/50 px-2 py-1 rounded-full">
+                          {project.date}
+                        </span>
+                        {project.link && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="p-1 h-auto opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => window.open(project.link, "_blank")}
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                          </Button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                    <CardTitle className="text-xl group-hover:text-primary transition-colors line-clamp-2">
+                      {project.title}
+                    </CardTitle>
+                    <CardDescription className="text-sm leading-relaxed line-clamp-3">
+                      {project.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="font-medium mb-2">Key Features:</h4>
+                        <ul className="text-sm text-muted-foreground space-y-1 max-h-32 overflow-y-auto">
+                          {project.features.map((feature, idx) => (
+                            <li key={idx} className="flex items-start">
+                              <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2">
+                        {project.tech.map((tech, idx) => (
+                          <Badge
+                            key={idx}
+                            variant="secondary"
+                            className="text-xs hover:bg-primary hover:text-primary-foreground transition-colors"
+                          >
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Scroll Indicator */}
+            <div className="flex justify-center mt-6">
+              <div className="flex space-x-2">
+                {projects.map((_, index) => (
+                  <div
+                    key={index}
+                    className="w-2 h-2 rounded-full bg-primary/30 hover:bg-primary/60 transition-colors cursor-pointer"
+                    onClick={() => {
+                      const container = document.getElementById("projects-container")
+                      if (container) {
+                        container.scrollTo({
+                          left: index * 400,
+                          behavior: "smooth",
+                        })
+                      }
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -762,7 +858,7 @@ export default function Portfolio() {
                 </div>
                 <div className="text-center">
                   <img
-                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eclipse/eclipse-original.svg"
+                    src="https://raw.githubusercontent.com/devicons/devicon/master/icons/eclipse/eclipse-original.svg"
                     alt="Eclipse"
                     className="tech-icon mx-auto mb-2"
                   />
@@ -877,39 +973,29 @@ export default function Portfolio() {
 
             <Card className="p-6">
               <h3 className="text-xl font-semibold mb-4">Send me a message</h3>
-              <form
-                className="space-y-4"
-                action="https://formsubmit.co/el/reyedu"
-                method="POST"
-              >
+              <form className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">First Name</label>
-                    <Input name="firstName" placeholder="John" />
+                    <Input placeholder="John" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">Last Name</label>
-                    <Input name="lastName" placeholder="Doe" />
+                    <Input placeholder="Doe" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Email</label>
-                  <Input name="email" type="email" placeholder="john@example.com" />
+                  <Input type="email" placeholder="john@example.com" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Subject</label>
-                  <Input name="subject" placeholder="Let's discuss opportunities" />
+                  <Input placeholder="Let's discuss opportunities" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Message</label>
-                  <Textarea name="message" placeholder="Hi Enock, I'd love to connect about..." rows={4} />
+                  <Textarea placeholder="Hi Enock, I'd love to connect about..." rows={4} />
                 </div>
-
-                {/* Hidden fields */}
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_template" value="table" />
-                <input type="hidden" name="_next" value="https://enock-owusu-ansah-portfolio.vercel.app/thank-you" />
-
                 <Button type="submit" className="w-full">
                   Send Message
                 </Button>
