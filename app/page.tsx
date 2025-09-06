@@ -29,6 +29,8 @@ import {
   ExternalLink,
   ChevronLeft,
   ChevronRight,
+  Download,
+  FileText,
 } from "lucide-react"
 import { useTheme } from "next-themes"
 
@@ -118,7 +120,7 @@ export default function Portfolio() {
 
   const experiences = [
     {
-      title: "Data Science & Machine Learning Research Intern",
+      title: "Machine Learning Research Intern",
       company: "Louisiana State University of Alexandria",
       location: "Alexandria, Louisiana",
       period: "May 2025 – July 2025",
@@ -145,8 +147,8 @@ export default function Portfolio() {
       location: "Accra, Ghana",
       period: "May 2024 – July 2024",
       achievements: [
-        "Boosted query performance by 50% through SQL optimization and indexing",
-        "Automated data cleaning tasks reducing manual processing time by 60%",
+        "Boosted query performance by 10% through SQL optimization and indexing",
+        "Automated data cleaning tasks reducing manual processing time by 20%",
         "Collaborated on database schema refactoring, decreasing data redundancy by 25%",
       ],
     },
@@ -156,6 +158,18 @@ export default function Portfolio() {
     Languages: ["Python", "Java", "C", "HTML/CSS", "JavaScript", "SQL"],
     Technologies: ["MongoDB", "React.js", "Node.js", "Express.js", "Firebase", "Linux", "Nest.js", "WordPress"],
     Tools: ["VS Code", "Git", "PyCharm", "Figma", "Canva", "Eclipse", "Google Cloud Platform", "Android Studio"],
+  }
+
+  // Function to handle resume download
+  const handleResumeDownload = () => {
+    // Create a link element and trigger download
+    const link = document.createElement("a")
+    link.href = "/resume/Enock_Owusu_Ansah_Resume.pdf"
+    link.download = "Enock_Owusu_Ansah_Resume.pdf"
+    link.target = "_blank"
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   useEffect(() => {
@@ -331,10 +345,10 @@ export default function Portfolio() {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b z-50">
+      <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-md border-b z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="font-bold text-xl">Enock Owusu Ansah</div>
+            <div className="font-bold text-xl text-foreground">Enock Owusu Ansah</div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-8">
@@ -342,8 +356,8 @@ export default function Portfolio() {
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
-                  className={`capitalize transition-colors ${
-                    activeSection === item ? "text-primary font-medium" : "text-muted-foreground hover:text-foreground"
+                  className={`capitalize transition-colors font-medium ${
+                    activeSection === item ? "text-primary" : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {item}
@@ -384,25 +398,23 @@ export default function Portfolio() {
 
       {/* Hero Section */}
       <section id="home" className="pt-16 min-h-screen flex items-center hero-gradient relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-black/10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
           <div className="text-center">
             <div className="mb-8">
-              <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden ring-4 ring-white/30 shadow-2xl">
+              <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden ring-4 ring-white/20 shadow-xl">
                 <img src="/images/enock-profile.jpeg" alt="Enock Owusu Ansah" className="w-full h-full object-cover" />
               </div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">Enock Owusu Ansah</h1>
-              <p className="text-xl md:text-2xl text-white/90 mb-2 drop-shadow">
-                Full Stack Developer and ML Enthusiast
-              </p>
-              <p className="text-lg text-white/80 mb-8 drop-shadow">Grambling State University</p>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white">Enock Owusu Ansah</h1>
+              <p className="text-xl md:text-2xl text-white/90 mb-2">Full Stack Developer and ML Enthusiast </p>
+              <p className="text-lg text-white/80 mb-8">Grambling State University</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button
                 size="lg"
                 onClick={() => scrollToSection("projects")}
-                className="bg-white text-gray-900 hover:bg-gray-100 shadow-lg"
+                className="bg-white text-gray-900 hover:bg-gray-100 shadow-lg font-medium"
               >
                 View My Work
               </Button>
@@ -410,16 +422,25 @@ export default function Portfolio() {
                 variant="outline"
                 size="lg"
                 onClick={() => scrollToSection("contact")}
-                className="bg-transparent text-white border-white/30 hover:bg-white/10 shadow-lg"
+                className="bg-transparent text-white border-white/30 hover:bg-white/10 shadow-lg font-medium"
               >
                 Get In Touch
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={handleResumeDownload}
+                className="bg-transparent text-white border-white/30 hover:bg-white/10 shadow-lg font-medium"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Resume
               </Button>
             </div>
 
             <div className="flex justify-center space-x-6">
               <a
                 href="mailto:eowusuan@gsumail.gram.edu"
-                className="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10"
+                className="text-white/80 hover:text-white transition-colors p-3 rounded-full hover:bg-white/10"
               >
                 <Mail className="w-6 h-6" />
               </a>
@@ -427,7 +448,7 @@ export default function Portfolio() {
                 href="https://linkedin.com/in/enock-owusu-ansah"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10"
+                className="text-white/80 hover:text-white transition-colors p-3 rounded-full hover:bg-white/10"
               >
                 <Linkedin className="w-6 h-6" />
               </a>
@@ -435,7 +456,7 @@ export default function Portfolio() {
                 href="https://github.com/Enocko"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10"
+                className="text-white/80 hover:text-white transition-colors p-3 rounded-full hover:bg-white/10"
               >
                 <Github className="w-6 h-6" />
               </a>
@@ -449,7 +470,7 @@ export default function Portfolio() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 about-gradient">
+      <section id="about" className="py-20 section-gradient">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
@@ -460,7 +481,7 @@ export default function Portfolio() {
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="w-full h-96 rounded-2xl overflow-hidden shadow-2xl hover-lift">
+              <div className="w-full h-96 rounded-2xl overflow-hidden shadow-xl hover-lift">
                 <img src="/images/enock-profile.jpeg" alt="Enock Owusu Ansah" className="w-full h-full object-cover" />
               </div>
             </div>
@@ -477,7 +498,7 @@ export default function Portfolio() {
 
               <div>
                 <h4 className="text-lg font-semibold mb-3">What drives me:</h4>
-                <ul className="space-y-2 text-muted-foreground">
+                <ul className="space-y-3 text-muted-foreground">
                   <li className="flex items-start">
                     <span className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
                     Building full-stack applications that solve real-world problems
@@ -511,13 +532,35 @@ export default function Portfolio() {
                   <span>Graduating 2028</span>
                 </div>
               </div>
+
+              {/* Resume Download Card */}
+              <Card className="professional-card p-6 mt-8">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <div className="p-3 bg-primary/10 rounded-lg">
+                      <FileText className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Resume</h4>
+                      <p className="text-sm text-muted-foreground">Download my complete resume</p>
+                    </div>
+                  </div>
+                  <Button onClick={handleResumeDownload} className="flex items-center space-x-2">
+                    <Download className="w-4 h-4" />
+                    <span>Download PDF</span>
+                  </Button>
+                </div>
+              </Card>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Section Divider */}
+      <div className="section-divider"></div>
+
       {/* Projects Section */}
-      <section id="projects" className="py-20 projects-gradient">
+      <section id="projects" className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Projects</h2>
@@ -532,7 +575,7 @@ export default function Portfolio() {
             <Button
               variant="outline"
               size="icon"
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm hover:bg-background/90 shadow-lg transition-all duration-300 hover:scale-110"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/90 backdrop-blur-sm hover:bg-background shadow-lg transition-all duration-300"
               onClick={() => scrollProjects("left")}
             >
               <ChevronLeft className="w-4 h-4" />
@@ -540,7 +583,7 @@ export default function Portfolio() {
             <Button
               variant="outline"
               size="icon"
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm hover:bg-background/90 shadow-lg transition-all duration-300 hover:scale-110"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/90 backdrop-blur-sm hover:bg-background shadow-lg transition-all duration-300"
               onClick={() => scrollProjects("right")}
             >
               <ChevronRight className="w-4 h-4" />
@@ -555,17 +598,17 @@ export default function Portfolio() {
               {projects.map((project, index) => (
                 <Card
                   key={index}
-                  className={`group hover-lift glow-on-hover colorful-card flex-shrink-0 w-96 transition-all duration-500 ${
-                    index === currentProjectIndex ? "scale-105 shadow-2xl ring-2 ring-primary/30" : "scale-100"
+                  className={`group hover-lift professional-glow professional-card flex-shrink-0 w-96 transition-all duration-500 ${
+                    index === currentProjectIndex ? "scale-105 shadow-xl ring-2 ring-primary/20" : "scale-100"
                   }`}
                 >
                   <CardHeader>
                     <div className="flex items-center justify-between mb-2">
-                      <div className="p-3 bg-primary/20 rounded-xl group-hover:bg-primary/30 transition-all duration-500 group-hover:scale-110 transform">
+                      <div className="p-3 bg-primary/10 rounded-xl group-hover:bg-primary/15 transition-all duration-300">
                         {project.icon}
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm text-muted-foreground bg-background/50 px-2 py-1 rounded-full">
+                        <span className="text-sm text-muted-foreground bg-muted px-2 py-1 rounded-full">
                           {project.date}
                         </span>
                         {project.link && (
@@ -626,38 +669,38 @@ export default function Portfolio() {
                     key={index}
                     className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${
                       index === currentProjectIndex
-                        ? "w-8 bg-primary shadow-lg"
-                        : "w-2 bg-primary/30 hover:bg-primary/60 hover:w-4"
+                        ? "w-8 bg-primary"
+                        : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/60 hover:w-4"
                     }`}
                     onClick={() => goToProject(index)}
                   />
                 ))}
               </div>
             </div>
-
-            {/* Clean spacing */}
-            <div className="mt-4"></div>
           </div>
         </div>
       </section>
 
+      {/* Section Divider */}
+      <div className="section-divider"></div>
+
       {/* Experience Section */}
-      <section id="experience" className="py-20 experience-gradient">
+      <section id="experience" className="py-20 section-gradient">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Experience & Leadership</h2>
-            <p className="text-lg text-white/80 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Experience & Leadership</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Building solutions, leading teams, and making impact through technology
             </p>
           </div>
 
           {/* Current ML Research Position - Featured Full Width */}
-          <Card className="experience-card p-8 hover-lift glow-on-hover mb-8">
+          <Card className="experience-card p-8 hover-lift professional-glow mb-8">
             <div className="text-center mb-6">
               <div className="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
                 <Award className="w-10 h-10 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-white">Data Science & ML Research Intern</h3>
+              <h3 className="text-2xl font-bold text-white">Machine Learning Research Intern</h3>
               <p className="text-white/80 font-medium">Louisiana State University of Alexandria</p>
               <p className="text-white/60 text-sm">May 2025 – July 2025</p>
             </div>
@@ -666,7 +709,7 @@ export default function Portfolio() {
                 <h4 className="font-semibold text-white mb-2">🧠 AI/ML Pipeline Expert</h4>
                 <p className="text-white/80 text-sm">
                   Built end-to-end machine learning pipeline achieving 92%+ accuracy in EEG emotional state
-                  classification using Random Forest and SVM models on 9,000+ samples
+                  classification using Gradient Boosting, Random Forest, and SVM models on 9,000+ samples
                 </p>
               </div>
               <div className="bg-white/10 rounded-lg p-4">
@@ -689,12 +732,12 @@ export default function Portfolio() {
           {/* Computer Lab Assistant and EPA Internship - Side by Side */}
           <div className="grid md:grid-cols-2 gap-8 mb-8">
             {/* Computer Lab Assistant */}
-            <Card className="experience-card-alt p-8 hover-lift glow-on-hover">
+            <Card className="experience-card-alt p-8 hover-lift professional-glow">
               <div className="text-center mb-6">
                 <div className="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
                   <Code className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Computer Lab Assistant</h3>
+                <h3 className="text-xl font-bold text-white">Computer Lab Assistant</h3>
                 <p className="text-white/80 font-medium">Grambling State University</p>
                 <p className="text-white/60 text-sm">October 2024 – Present</p>
               </div>
@@ -702,8 +745,8 @@ export default function Portfolio() {
                 <div className="bg-white/10 rounded-lg p-4">
                   <h4 className="font-semibold text-white mb-2">🔧 Technical Problem Solver</h4>
                   <p className="text-white/80 text-sm">
-                    Resolved 100+ technical issues across 40+ Windows machines, ensuring seamless lab operations for
-                    students
+                    Diagnosed and resolved 100+ technical issues per semester across 40+ Windows machines, ensuring
+                    seamless lab operations for students
                   </p>
                 </div>
                 <div className="bg-white/10 rounded-lg p-4">
@@ -712,22 +755,16 @@ export default function Portfolio() {
                     Achieved zero security incidents through proactive system monitoring and antivirus management
                   </p>
                 </div>
-                <div className="bg-white/10 rounded-lg p-4">
-                  <h4 className="font-semibold text-white mb-2">⚙️ System Optimizer</h4>
-                  <p className="text-white/80 text-sm">
-                    Configured essential academic software improving student productivity and learning experience
-                  </p>
-                </div>
               </div>
             </Card>
 
             {/* EPA Software Engineer Intern */}
-            <Card className="experience-card-leadership p-8 hover-lift glow-on-hover">
+            <Card className="experience-card-leadership p-8 hover-lift professional-glow">
               <div className="text-center mb-6">
                 <div className="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
                   <Database className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Software Engineer Intern</h3>
+                <h3 className="text-xl font-bold text-white">Software Engineer Intern</h3>
                 <p className="text-white/80 font-medium">Environmental Protection Agency (Ghana)</p>
                 <p className="text-white/60 text-sm">May 2024 – July 2024</p>
               </div>
@@ -735,19 +772,13 @@ export default function Portfolio() {
                 <div className="bg-white/10 rounded-lg p-4">
                   <h4 className="font-semibold text-white mb-2">🚀 Performance Booster</h4>
                   <p className="text-white/80 text-sm">
-                    Increased database query performance by 50% through SQL optimization and strategic indexing
+                    Boosted query performance by 10% through SQL optimization and strategic indexing
                   </p>
                 </div>
                 <div className="bg-white/10 rounded-lg p-4">
                   <h4 className="font-semibold text-white mb-2">🤖 Automation Expert</h4>
                   <p className="text-white/80 text-sm">
-                    Built Python automation scripts reducing manual data processing time by 60%
-                  </p>
-                </div>
-                <div className="bg-white/10 rounded-lg p-4">
-                  <h4 className="font-semibold text-white mb-2">🏗️ Database Architect</h4>
-                  <p className="text-white/80 text-sm">
-                    Redesigned database schema cutting data redundancy by 25% and improving reporting accuracy
+                    Automated routine data cleaning tasks using Python scripts, reducing manual processing time by 20%
                   </p>
                 </div>
               </div>
@@ -755,7 +786,7 @@ export default function Portfolio() {
           </div>
 
           {/* NSBE Leadership Section - Full Width */}
-          <Card className="experience-card p-8 hover-lift glow-on-hover">
+          <Card className="experience-card p-8 hover-lift professional-glow">
             <div className="text-center mb-6">
               <div className="w-24 h-24 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
                 <Users className="w-12 h-12 text-white" />
@@ -795,22 +826,23 @@ export default function Portfolio() {
         </div>
       </section>
 
+      {/* Section Divider */}
+      <div className="section-divider"></div>
+
       {/* Skills Section */}
-      <section id="skills" className="py-20 skills-gradient">
+      <section id="skills" className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Technical Arsenal</h2>
-            <p className="text-lg text-white/80 max-w-2xl mx-auto">
-              Technologies and tools I use to build amazing solutions
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical Skills</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Technologies and tools I use to build innovative solutions
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             {/* Programming Languages */}
-            <Card className="colorful-card p-8 hover-lift">
-              <h3 className="text-2xl font-semibold mb-6 text-center bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Programming Languages
-              </h3>
+            <Card className="professional-card p-8 hover-lift">
+              <h3 className="text-xl font-semibold mb-6 text-center text-primary">Programming Languages</h3>
               <div className="grid grid-cols-3 gap-6">
                 <div className="text-center">
                   <img
@@ -864,10 +896,8 @@ export default function Portfolio() {
             </Card>
 
             {/* Technologies & Frameworks */}
-            <Card className="colorful-card p-8 hover-lift">
-              <h3 className="text-2xl font-semibold mb-6 text-center bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
-                Technologies & Frameworks
-              </h3>
+            <Card className="professional-card p-8 hover-lift">
+              <h3 className="text-xl font-semibold mb-6 text-center text-primary">Technologies & Frameworks</h3>
               <div className="grid grid-cols-3 gap-6">
                 <div className="text-center">
                   <img
@@ -937,10 +967,8 @@ export default function Portfolio() {
             </Card>
 
             {/* Developer Tools */}
-            <Card className="colorful-card p-8 hover-lift">
-              <h3 className="text-2xl font-semibold mb-6 text-center bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                Developer Tools
-              </h3>
+            <Card className="professional-card p-8 hover-lift">
+              <h3 className="text-xl font-semibold mb-6 text-center text-primary">Developer Tools</h3>
               <div className="grid grid-cols-3 gap-6">
                 <div className="text-center">
                   <img
@@ -1011,23 +1039,23 @@ export default function Portfolio() {
           </div>
 
           {/* Coursework */}
-          <Card className="colorful-card p-8">
-            <h3 className="text-2xl font-semibold mb-6 text-center bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-              Academic Foundation
-            </h3>
+          <Card className="professional-card p-8">
+            <h3 className="text-xl font-semibold mb-6 text-center text-primary">Academic Foundation</h3>
             <div className="flex flex-wrap gap-3 justify-center">
               {[
-                "Data Structures",
+                "Data Structures and Algorithms",
                 "Software Methodology",
                 "Database Management",
                 "Discrete Structures",
                 "Systems Programming",
                 "Computer Architecture",
+                "Machine Learning",
                 "Object-Oriented Programming",
               ].map((course, idx) => (
                 <Badge
                   key={idx}
-                  className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 text-sm hover:scale-105 transition-transform"
+                  variant="secondary"
+                  className="px-4 py-2 text-sm hover:bg-primary hover:text-primary-foreground transition-colors"
                 >
                   {course}
                 </Badge>
@@ -1037,8 +1065,11 @@ export default function Portfolio() {
         </div>
       </section>
 
+      {/* Section Divider */}
+      <div className="section-divider"></div>
+
       {/* Contact Section */}
-      <section id="contact" className="py-20 contact-gradient">
+      <section id="contact" className="py-20 section-gradient">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
@@ -1113,7 +1144,7 @@ export default function Portfolio() {
               </div>
             </div>
 
-            <Card className="p-6">
+            <Card className="professional-card p-6">
               <h3 className="text-xl font-semibold mb-4">Send me a message</h3>
 
               {submitStatus === "success" && (
@@ -1209,11 +1240,11 @@ export default function Portfolio() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 border-t">
+      <footer className="py-8 border-t bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-muted-foreground">
             <p>&copy; 2025 Enock Owusu Ansah. All rights reserved.</p>
-            <p className="mt-2 text-sm">Built with Next.js, Tailwind CSS, and passion for great design.</p>
+            <p className="mt-2 text-sm">Built with Next.js, Tailwind CSS, and attention to detail.</p>
           </div>
         </div>
       </footer>

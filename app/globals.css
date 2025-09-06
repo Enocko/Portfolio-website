@@ -87,76 +87,42 @@ html {
   overflow: hidden;
 }
 
-/* Colorful gradient backgrounds */
+/* Professional gradient backgrounds */
 .hero-gradient {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 8s ease infinite;
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #3b82f6 50%, #60a5fa 75%, #93c5fd 100%);
+  background-size: 200% 200%;
+  animation: subtleGradientShift 12s ease infinite;
 }
 
-.about-gradient {
-  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+.section-gradient {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
-.dark .about-gradient {
-  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+.dark .section-gradient {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
 }
 
-.projects-gradient {
-  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+.professional-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
-.dark .projects-gradient {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+.dark .professional-card {
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(51, 65, 85, 0.8);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
-.experience-gradient {
-  background: linear-gradient(135deg, #a8caba 0%, #5d4e75 100%);
-}
-
-.dark .experience-gradient {
-  background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
-}
-
-.skills-gradient {
-  background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
-}
-
-.dark .skills-gradient {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.contact-gradient {
-  background: linear-gradient(135deg, #fdbb2d 0%, #22c1c3 100%);
-}
-
-.dark .contact-gradient {
-  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-}
-
-.colorful-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 100%);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
-
-.dark .colorful-card {
-  background: linear-gradient(135deg, rgba(30, 30, 40, 0.95) 0%, rgba(20, 20, 30, 0.8) 100%);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-@keyframes gradientShift {
-  0% {
+@keyframes subtleGradientShift {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
     background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
   }
 }
 
@@ -166,12 +132,12 @@ html {
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-6px);
   }
 }
 
 .float-animation {
-  animation: float 3s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
 }
 
 .hover-lift {
@@ -179,25 +145,25 @@ html {
 }
 
 .hover-lift:hover {
-  transform: translateY(-12px) scale(1.02);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
 .dark .hover-lift:hover {
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
-.glow-on-hover {
+.professional-glow {
   position: relative;
   transition: all 0.3s ease;
 }
 
-.glow-on-hover:hover {
-  box-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
+.professional-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
 }
 
-.dark .glow-on-hover:hover {
-  box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
+.dark .professional-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
 }
 
 .tech-icon {
@@ -207,20 +173,30 @@ html {
 }
 
 .tech-icon:hover {
-  transform: scale(1.2) rotate(5deg);
+  transform: scale(1.1);
 }
 
 .experience-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
   color: white;
 }
 
 .experience-card-alt {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
   color: white;
 }
 
 .experience-card-leadership {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
   color: white;
+}
+
+/* Professional section styling */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+}
+
+.dark .section-divider {
+  background: linear-gradient(90deg, transparent, #334155, transparent);
 }
